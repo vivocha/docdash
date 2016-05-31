@@ -1,0 +1,30 @@
+/*
+	VIVOCHA THEME CUSTOMIZATIONS
+*/
+@import url (https://fonts.googleapis.com/css?family=Oswald:400,700);
+a,
+a:active {
+ 	color: #c2765a;
+}
+h4.name {
+	background: #c2765a;
+}
+nav a:hover,
+nav a:active {
+	color: #c2765a;
+}
+nav > ul > li > a {
+	color: #c2765a;
+}
+nav > h2 > a {
+	color: #c2765a !important;
+}
+.type-signature {
+	color: #ffecc2
+}
+.signature {
+	color: #ffdc83;
+}
+span.param-type, .params td .param-type, .param-type dd {
+	color: #925944;
+}
