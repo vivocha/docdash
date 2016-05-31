@@ -319,7 +319,7 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
         });
 
         if (itemsNav !== '') {
-            nav += '<h3>' + itemHeading + '</h3><ul>' + itemsNav + '</ul>';
+            nav += '<h3 class="vvc-accordion-trigger">' + itemHeading + '</h3><ul class="hide">' + itemsNav + '</ul>';
         }
     }
 
@@ -349,18 +349,19 @@ function linktoExternal(longName, name) {
  * @return {string} The HTML for the navigation sidebar.
  */
 function buildNav(members) {
-    var nav = '<h2><a href="index.html">Home</a></h2>';
+
+    var nav = '<h2><a href="index.html"><img src="images/logo.png" alt="Vivocha" class="vvc-nav-logo"></a></h2>';
     var seen = {};
     var seenTutorials = {};
 
+    nav += buildMemberNav(members.namespaces, 'Namespaces', seen, linkto);
     nav += buildMemberNav(members.classes, 'Classes', seen, linkto);
     nav += buildMemberNav(members.modules, 'Modules', {}, linkto);
-    nav += buildMemberNav(members.externals, 'Externals', seen, linktoExternal);
-    nav += buildMemberNav(members.events, 'Events', seen, linkto);
-    nav += buildMemberNav(members.namespaces, 'Namespaces', seen, linkto);
+    // nav += buildMemberNav(members.events, 'Events', seen, linkto);
     nav += buildMemberNav(members.mixins, 'Mixins', seen, linkto);
     nav += buildMemberNav(members.tutorials, 'Tutorials', seenTutorials, linktoTutorial);
     nav += buildMemberNav(members.interfaces, 'Interfaces', seen, linkto);
+    nav += buildMemberNav(members.externals, 'Externals', seen, linktoExternal);
 
     if (members.globals.length) {
         var globalNav = '';
@@ -567,6 +568,18 @@ exports.publish = function(taffyData, opts, tutorials) {
     view.tutoriallink = tutoriallink;
     view.htmlsafe = htmlsafe;
     view.outputSourceFiles = outputSourceFiles;
+
+    /*************************************
+        Custom Vivocha's template helpers
+    ************************************/
+    // TODO
+    helper.getTableOfContents = function(data) {
+        return data;
+    }
+
+
+
+    /***********************************/
 
     // once for all
     view.nav = buildNav(members);

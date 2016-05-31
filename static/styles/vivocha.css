@@ -1,5 +1,11 @@
 /*
-	VIVOCHA THEME CUSTOMIZATIONS
+	Helper classes
+*/
+.hide {
+  display:none;
+}
+/*
+	Colors override
 */
 @import url (https://fonts.googleapis.com/css?family=Oswald:400,700);
 a,
@@ -27,4 +33,11 @@ nav > h2 > a {
 }
 span.param-type, .params td .param-type, .param-type dd {
 	color: #925944;
+}
+
+.vvc-nav-logo {
+	width: 90%;
+}
+.vvc-accordion-trigger:hover {
+	cursor: pointer;
 }
