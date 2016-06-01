@@ -1,14 +1,15 @@
 /*
-	Simple accordion in Vanilla Javascript
-	inspired by: http://codepen.io/jamespr/pen/yyxXNP
+		Simple accordion in Vanilla Javascript
+		inspired by: http://codepen.io/jamespr/pen/yyxXNP
 */
 (function() {
-	var el = document.getElementById("vvc-accordion-nav")
+	var el = document.getElementById("vvc-sidenav")
 		, hook = el.getElementsByClassName("vvc-accordion-trigger");
 	for (var i = 0; i < hook.length; i++) {
-		hook[i].addEventListener("click",Toogle);
+		hook[i].addEventListener("click", toggle);
 	}
-	function Toogle() {
+	function toggle(e) {
+		e.preventDefault();
 	  if (this.nextElementSibling.nodeType === 1 && hasClass(this.nextElementSibling,"hide")) { 
 	    if (this.nextElementSibling.classList) {
 	      this.nextElementSibling.classList.remove('hide');
