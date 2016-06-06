@@ -10,16 +10,11 @@
 	}
 	function toggle(e) {
 		e.preventDefault();
-	  if (this.nextElementSibling.nodeType === 1 && hasClass(this.nextElementSibling,"hide")) { 
-	    if (this.nextElementSibling.classList) {
-	      this.nextElementSibling.classList.remove('hide');
-	    } else {
-	      this.nextElementSibling.className = this.nextElementSibling.className.replace(new RegExp('(^|\\b)' + "hide" + '(\\b|$)', 'gi'), ' ');
-	    }
-	  }
-	  else {    
-	    this.nextElementSibling.className += " " + "hide";
-	  }      
+		if (this.nextElementSibling.nodeType === 1 && hasClass(this.nextElementSibling, "hide")) { 
+			this.nextElementSibling.classList.remove('hide');
+		} else {    
+			this.nextElementSibling.classList.add('hide');
+		}      
 	}
 	function hasClass (el, className){
 	  return el.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(el.className);
