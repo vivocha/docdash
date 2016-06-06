@@ -11,6 +11,7 @@ var template = require('jsdoc/template');
 var util = require('util');
 
 var htmlsafe = helper.htmlsafe;
+
 var linkto = helper.linkto;
 var resolveAuthorLinks = helper.resolveAuthorLinks;
 var scopeToPunc = helper.scopeToPunc;
@@ -287,8 +288,11 @@ function attachModuleSymbols(doclets, modules) {
     });
 }
 
-function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
+function buildMemberNav(items, itemHeading, itemsSeen, linktoFn, open) {
     var nav = '';
+
+    // forces open accordion
+    open = true;
 
     if (items && items.length) {
         var itemsNav = '';
@@ -319,7 +323,9 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
         });
 
         if (itemsNav !== '') {
-            nav += '<h3 class="vvc-accordion-trigger">' + itemHeading + '</h3><ul class="hide">' + itemsNav + '</ul>';
+            var navList = (open ? '<ul class="accordion-open">' : '<ul class="hide">') + itemsNav + '</ul>';
+            nav += '<h3 class="vvc-accordion-trigger">' + itemHeading + '</h3>'; 
+            nav += navList;
         }
     }
 
@@ -350,8 +356,11 @@ function linktoExternal(longName, name) {
  */
 function buildNav(members) {
 
-    var nav =   '<h2><a href="index.html"><img src="images/logo.png" alt="Vivocha" class="vvc-nav-logo"></a></h2>' +
-                '<p><b>Javascript SDK Docs</b></p>';
+    var nav =   '<div id="nav-header">' +
+                    '<h2><a href="index.html"><img src="images/logo.png" alt="Vivocha" class="vvc-nav-logo"></a></h2>' +
+                    '<p><b>Javascript SDK Docs</b></p>' +
+                '</div>' +
+                '<div id="nav-spacer"></div>';
     var seen = {};
     var seenTutorials = {};
 
@@ -385,45 +394,6 @@ function buildNav(members) {
 
     return nav;
 }
-
-
-
-
-
-
-function buildTableOfContents(data) {
-    var lis = []
-      , isGlobalPage = false
-      , events = find({kind: 'event', memberof: isGlobalPage ? {isUndefined: true} : doc.longname})
-
-
-
-
-
-    // extends
-    if (data.augments && data.augments.length) {
-        lis.push('<li><a href="#anchor-extend">Extends</a></li>');
-    }
-    // requires
-    if(data.requires && data.requires.length) {
-        lis.push('<li><a href="#anchor-requires">Requires</a></li>')
-    }
-
-
-    // events
-    if (events && events.length && events.forEach) {
-        lis.push('<li><a href="#anchor-events">Events</a></li>');
-    }
-    
-    if(lis.length) {
-      var toc = '<h3>Table Of Contents</h3>';
-      toc += '<ul>' + lis.join('') + '</ul>';
-      return toc;
-    } else {
-      return "";
-    }
-}
-
 
 /**
     @param {TAFFY} taffyData See <http://taffydb.com/>.
