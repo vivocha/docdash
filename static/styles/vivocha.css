@@ -103,3 +103,6 @@ span.param-type, .params td .param-type, .param-type dd {
 .clear {
 	clear: both;
 }
+.anchor-wrapper {
+	padding-top: 40px;
+}
