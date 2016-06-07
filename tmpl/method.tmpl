@@ -7,10 +7,9 @@ var self = this;
     <h2>Constructor</h2>
     <?js } ?>
 
-    <div class="anchor-wrapper" id="<?js= id ?>">
-        <h4 class="name"><?js= data.attribs + (kind === 'class' ? 'new ' : '') +
-    name + (data.signature || '') ?></h4>
-    </div>
+    <h4 class="name" id="<?js= id ?>">
+        <?js= data.attribs + (kind === 'class' ? 'new ' : '') + name + (data.signature || '') ?>
+    </h4>
 
     <?js if (data.summary) { ?>
     <p class="summary"><?js= summary ?></p>

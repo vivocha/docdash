@@ -2,7 +2,7 @@
 	Helper classes
 */
 .hide {
-  display:none !important;
+  display: none !important;
 }
 /*
 	Colors override
@@ -37,7 +37,6 @@ nav > h2 > a {
 span.param-type, .params td .param-type, .param-type dd {
 	color: #925944;
 }
-
 #vvc-sidenav {
 	padding-left: 20px;
 }
@@ -45,64 +44,13 @@ span.param-type, .params td .param-type, .param-type dd {
 	width: 60%;
 	margin-top: 25px;
 }
-.vvc-header-logo{
-	width: 100%;
-	min-width: 85px;
-	max-width: 100px;
+#main-content {
+	padding-right: 20px;
 }
-.vvc-accordion-trigger:hover {
-	cursor: pointer;
+#nav-header {
+	margin-bottom: 50px;
 }
-
-@media only screen and (min-width: 320px) and (max-width: 680px) {
-	#vvc-header-bar {
-		display: none;
-	}
-	#nav-header {
-		display: block;
-	}
-}
-
-#vvc-header-bar {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	background: #ddd;
-	opacity: 0.9;
-	z-index: 99999;
-}
-#go-to-top {
-	display: inline-block;
-	padding: 6px 10px;
-	margin-right: 25px;
-	color: #c2765a;
-	font-size: 20px;
-	transition: 0.5s all;
-}
-#go-to-top:hover,
-#go-to-top:hover i {
-	cursor: pointer;
-	color: white;
-}
-
-.margin-top-50 {
-	margin-top: 50px;
-}
-
-.header-float-right {
-	float: right;
-	width: 40%;
-	text-align: right;
-}
-.header-float-left {
-	float: left;
-	width: 40%;
-	margin-left: 20px;
-	margin-top: 5px;
-}
-.clear {
-	clear: both;
-}
-.anchor-wrapper {
-	padding-top: 40px;
+#nav-subheader {
+	margin: 0;
+	margin-top: -5px;
 }

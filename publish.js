@@ -1,6 +1,7 @@
 /*global env: true */
 'use strict';
 
+var _ = require('underscore');
 var doop = require('jsdoc/util/doop');
 var fs = require('jsdoc/fs');
 var helper = require('jsdoc/util/templateHelper');
@@ -9,17 +10,13 @@ var path = require('jsdoc/path');
 var taffy = require('taffydb').taffy;
 var template = require('jsdoc/template');
 var util = require('util');
-
 var htmlsafe = helper.htmlsafe;
-
 var linkto = helper.linkto;
 var resolveAuthorLinks = helper.resolveAuthorLinks;
 var scopeToPunc = helper.scopeToPunc;
 var hasOwnProp = Object.prototype.hasOwnProperty;
-
 var data;
 var view;
-
 var outdir = path.normalize(env.opts.destination);
 
 function find(spec) {
@@ -288,44 +285,51 @@ function attachModuleSymbols(doclets, modules) {
     });
 }
 
-function buildMemberNav(items, itemHeading, itemsSeen, linktoFn, open) {
-    var nav = '';
+function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
 
-    // forces open accordion
-    open = true;
+    var nav = '';
 
     if (items && items.length) {
         var itemsNav = '';
 
         items.forEach(function(item) {
-            var methods = find({kind:'function', memberof: item.longname});
-            var members = find({kind:'member', memberof: item.longname});
 
-            if ( !hasOwnProp.call(item, 'longname') ) {
-                itemsNav += '<li>' + linktoFn('', item.name);
-                itemsNav += '</li>';
-            } else if ( !hasOwnProp.call(itemsSeen, item.longname) ) {
-                itemsNav += '<li>' + linktoFn(item.longname, item.name.replace(/^module:/, ''));
-                if (methods.length) {
-                    itemsNav += "<ul class='methods'>";
+            if(!item.hideFromNav) {
 
-                    methods.forEach(function (method) {
-                        itemsNav += "<li data-type='method'>";
-                        itemsNav += linkto(method.longname, method.name);
-                        itemsNav += "</li>";
-                    });
+              var methods = find({kind:'function', memberof: item.longname });
+              var members = find({kind:'member', memberof: item.longname });
 
-                    itemsNav += "</ul>";
-                }
-                itemsNav += '</li>';
-                itemsSeen[item.longname] = true;
+              if ( !hasOwnProp.call(item, 'longname') ) {
+                  itemsNav += '<li>' + linktoFn('', item.name);
+                  itemsNav += '</li>';
+              } else if ( !hasOwnProp.call(itemsSeen, item.longname) ) {
+                  itemsNav += '<li>' + linktoFn(item.longname, item.name.replace(/^module:/, ''));
+                  if (methods.length) {
+                      itemsNav += "<ul class='methods'>";
+
+                      methods.forEach(function (method) {
+                          if(!method.hideFromNav) {
+                            itemsNav += "<li data-type='method'>";
+                            itemsNav += linkto(method.longname, method.name);
+                            itemsNav += "</li>";
+                          } else {
+                            console.log('Hiding method', method.longname || method.name, 'link from navbar');
+                          }
+                      });
+
+                      itemsNav += "</ul>";
+                  }
+                  itemsNav += '</li>';
+                  itemsSeen[item.longname] = true;
+              }
+            } else {
+              console.log('Hiding member', item.longname || item.name, 'link from navbar');
             }
         });
 
         if (itemsNav !== '') {
-            var navList = (open ? '<ul class="accordion-open">' : '<ul class="hide">') + itemsNav + '</ul>';
-            nav += '<h3 class="vvc-accordion-trigger">' + itemHeading + '</h3>'; 
-            nav += navList;
+            nav += '<h3>' + itemHeading + '</h3>'; 
+            nav += '<ul>' + itemsNav + '</ul>';
         }
     }
 
@@ -358,9 +362,8 @@ function buildNav(members) {
 
     var nav =   '<div id="nav-header">' +
                     '<h2><a href="index.html"><img src="images/logo.png" alt="Vivocha" class="vvc-nav-logo"></a></h2>' +
-                    '<p><b>Javascript SDK Docs</b></p>' +
-                '</div>' +
-                '<div id="nav-spacer"></div>';
+                    '<h3 id="nav-subheader">Javascript SDK Docs</h3>' +
+                '</div>';
     var seen = {};
     var seenTutorials = {};
 
@@ -420,14 +423,16 @@ exports.publish = function(taffyData, opts, tutorials) {
     // set up templating
     view.layout = conf.default.layoutFile ?
         path.getResourcePath(path.dirname(conf.default.layoutFile),
-            path.basename(conf.default.layoutFile) ) :
+        path.basename(conf.default.layoutFile) ) :
         'layout.tmpl';
 
     // set up tutorials for helper
     helper.setTutorials(tutorials);
 
     data = helper.prune(data);
-    data.sort('longname, version, since');
+
+    data.sort('order, longname, version, since');
+
     helper.addEventListeners(data);
 
     var sourceFiles = {};

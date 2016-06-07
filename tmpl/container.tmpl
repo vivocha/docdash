@@ -49,10 +49,6 @@
     var toc = "<h3>Table of Contents</h3>"
       , lis = [];
 
-    // extends
-    if (doc.augments && doc.augments.length) {
-      lis.push('<li><a href="#anchor-extends">Extends</a></li>');
-    }
     // requires
     if (doc.requires && doc.requires.length) {
       lis.push('<li><a href="#anchor-requires">Requires</a></li>');
